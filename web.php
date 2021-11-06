@@ -52,7 +52,13 @@ Route::get('/user/{id}/{name}', function ($id, $name){
 Route::get('/articles/{date}', function ($date){
     return $date;
 })->where('date', '\d{4}-\d{2}-\d{2}');
-*/
+
 Route::get('/users/{order}/', function ($order){
     return $order;
 })->where('order', 'name|surname|age');
+Route::get('/{year}/{month}/{day}/', function ($year, $month, $day){
+    $weekDay = ['ned', 'pon', 'viv', 'ser', 'cet', 'pia', 'sub'];
+    return $weekDay[date('w', mktime(0,0,0,$month,$day,$year))];
+})->where(['year'=>'\d{4}', 'month'=>'\d{2}', 'day'=>'\d{2}]);
+*/
+Route::get('/pages/showOne/', 'Page@showOne');
