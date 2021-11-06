@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Page;
+use App\Http\Controllers\Test;
+use App\Http\Controllers\Employee;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -61,4 +63,10 @@ Route::get('/{year}/{month}/{day}/', function ($year, $month, $day){
     return $weekDay[date('w', mktime(0,0,0,$month,$day,$year))];
 })->where(['year'=>'\d{4}', 'month'=>'\d{2}', 'day'=>'\d{2}]);
 */
-Route::get('/pages/showOne/', 'Page@showOne');
+
+//3.1-3.13
+Route::get('/pages/showOne/{id}/', [Page::class, 'showOne'])->where('id', '\d+');
+Route::get('/pages/showAll', [Page::class, 'showAll']);
+Route::get('/test/sum/{num1}/{num2}/', [Test::class, 'sum'])->where(['num1'=>'\d+', 'num2'=>'\d+']);
+Route::get('/employee/showOne/{id}', [Employee::class, 'showOne'])->where('id', '\d+');
+Route::get('/employee/showField/{id}/{param}/', [Employee::class, 'showField'])->where(['id'=>'\d+', 'param'=>'name|surname|salary']);
