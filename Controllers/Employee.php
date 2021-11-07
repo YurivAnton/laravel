@@ -46,12 +46,12 @@ class Employee extends Controller
         {
             $result .= $employee.' ';
         }
-        return $result;
+        return view('Employee.showOne', ['result'=>$result]);
     }
 
     public function showField($id, $param)
     {
-        return $this->employees[$id][$param];
+        return view('Employee.showField', ['field'=>$this->employees[$id][$param]]);
     }
 }
 
