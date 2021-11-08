@@ -61,7 +61,24 @@ class Test extends Controller
         {
             $arr5[] = $i;
         }
+        $employees = [
+            [
+                'name' => 'user1',
+                'surname' => 'surname1',
+                'salary' => 1000,
+            ],
+            [
+                'name' => 'user2',
+                'surname' => 'surname2',
+                'salary' => 2000,
+            ],
+            [
+                'name' => 'user3',
+                'surname' => 'surname3',
+                'salary' => 3000,
+            ],
+        ];
 
-        return view('Test.show', ['arr'=>$arr, 'str'=>$str, 'data'=>$data, 'arr5'=>$arr5]);
+        return view('Test.show', ['arr'=>$arr, 'str'=>$str, 'data'=>$data, 'arr5'=>$arr5, 'employees'=>$employees]);
     }
 }

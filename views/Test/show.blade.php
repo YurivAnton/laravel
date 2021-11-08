@@ -99,12 +99,32 @@ for($i=0; $i<10; $i++){
     <p>{{ $data }}</p>
 @endif
 
-<table>
-    @foreach($arr5 as $subArr5)
-        <tr>
-            @foreach($subArr5 as $elem)
+<table border="1">
+    @foreach($arr5 as $elem)
+        <td>{{ $elem }}</td>
+        @if($elem % 5 == 0)
+            </tr>
+        @endif
+    @endforeach
+</table>
 
+<ul>
+    @foreach($employees as $employee)
+        <li>{{ $employee['name'] }} {{ $employee['surname'] }} {{ $employee['salary'] }}</li>
+    @endforeach
+</ul>
+
+<table border="1">
+    <th>name</th>
+    <th>surname</th>
+    <th>salary</th>
+    @foreach($employees as $employee)
+        <tr>
+            @foreach($employee as $elem)
+                <td>{{ $elem }}</td>
+            @endforeach
         </tr>
+    @endforeach
 </table>
 </body>
 </html>
