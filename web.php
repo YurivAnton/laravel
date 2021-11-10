@@ -15,9 +15,9 @@ use App\Http\Controllers\Employee;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 /*
 //2.1-2.12
 Route::get('/test', function (){
@@ -77,3 +77,7 @@ Route::get('/test/sum/{num1}/{num2}/', [Test::class, 'sum'])->where(['num1'=>'\d
 
 //6
 Route::get('/test/show/', [Test::class, 'show']);
+Route::get('/', [Test::class, 'home']);
+Route::get('/contact/', [Test::class, 'contact']);
+Route::get('/about', [Test::class, 'about']);
+Route::get('/test/practic/', [Test::class, 'practic']);

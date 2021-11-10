@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+{{--<!DOCTYPE html>
 <html>
 <head>
     <title>Test</title>
 </head>
-<body>
+<body>--}}
+
+
 {{--<p class="{{$class}}">{{$name}}</p>
 <p style="{{$style}}">{{$age}}</p>
 <p>{{$salary}}</p>
@@ -67,6 +69,23 @@ for($i=0; $i<10; $i++){
 
 {{--7--}}
 
+
+
+@extends('layouts.app')
+
+@section('title')
+    {{ $title }}
+@endsection
+
+@section('aside')
+    @parent
+
+    <br>
+    aside-show
+@endsection
+
+@section('main')
+
 <ul>
     @foreach($arr as $elem)
         {{--<li>{{$elem}}</li>--}}
@@ -126,5 +145,37 @@ for($i=0; $i<10; $i++){
         </tr>
     @endforeach
 </table>
+
+<ul>
+@foreach($str as $elem)
+    <li>{{ $loop->index }} - {{ $elem }}</li>
+@endforeach
+</ul>
+
+<ul>
+@foreach($str as $elem)
+    <li
+        @if($loop->first)
+            class="first"
+        @elseif($loop->last)
+            class="last"
+        @endif>
+        {{ $loop->iteration }} - {{ $elem }}
+    </li>
+@endforeach
+</ul>
+
+@foreach($arr as $elem)
+    @if($loop->remaining <= 2)
+        <i>{{$elem}}</i>
+    @else
+        <b>{{$elem}}</b>
+    @endif
+@endforeach
+
+@endsection
+
+{{--
 </body>
 </html>
+--}}
