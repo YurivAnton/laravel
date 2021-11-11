@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Page;
 use App\Http\Controllers\Test;
 use App\Http\Controllers\Employee;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\Product;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,3 +83,15 @@ Route::get('/', [Test::class, 'home']);
 Route::get('/contact/', [Test::class, 'contact']);
 Route::get('/about', [Test::class, 'about']);
 Route::get('/test/practic/', [Test::class, 'practic']);
+
+//10
+Route::get('/posts/{id}/', [PostController::class, 'showOne']);
+Route::get('/posts/', [PostController::class, 'showAll']);
+
+Route::get('/product/{category_id}/{product_id}/', [Product::class, 'showProduct']);
+Route::get('/product/{category_id}/', [Product::class, 'showCategory']);
+Route::get('/categories/', [Product::class, 'showCategoryList']);
+
+//11
+Route::get('/test/form/', [Test::class, 'form']);
+Route::get('/test/result', [Test::class, 'result']);

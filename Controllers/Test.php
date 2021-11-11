@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class Test extends Controller
 {
@@ -190,7 +191,38 @@ class Test extends Controller
             $days[] = $i;
         }
 
-        return view('Test.practic', ['links'=>$links, 'title'=>$title, 'employees'=>$employees,
-                                            'users'=>$users, 'inputs'=>$inputs, 'days'=>$days, 'today'=>$today]);
+        return view('Test.practic', [
+                                            'links'=>$links,
+                                            'title'=>$title,
+                                            'employees'=>$employees,
+                                            'users'=>$users,
+                                            'inputs'=>$inputs,
+                                            'days'=>$days,
+                                            'today'=>$today
+                                        ]
+        );
+    }
+
+    public function form(/*Request $request*/)
+    {
+        /*$result = '';
+        $sum = '';
+        if($request->has('text')){
+            $result = pow($request->input('text'), 2);
+        }
+        if($request->has('num1') and $request->has('num2')){
+            $sum = $request->input('num1') + $request->input('num2');
+        }
+        return view('Test.form', ['result'=>$result, 'sum'=>$sum]);*/
+        return view('Test.form');
+    }
+
+    public function result(Request $request)
+    {
+        $num1 = $request->input('num1');
+        $num2 = $request->input('num2');
+        $num3 = $request->input('num3');
+
+        return view('Test.result', ['num1'=>$num1, 'num2'=>$num2, 'num3'=>$num3]);
     }
 }
