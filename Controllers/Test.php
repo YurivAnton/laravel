@@ -222,7 +222,60 @@ class Test extends Controller
         $num1 = $request->input('num1');
         $num2 = $request->input('num2');
         $num3 = $request->input('num3');
+        $method = $request->method();
+        if($method == 'POST'){
+            $method = '!';
+        }elseif($method == 'GET'){
+            $method = '!!';
+        }
+        return view('Test.result', ['num1'=>$num1, 'num2'=>$num2, 'num3'=>$num3, 'method'=>$method]);
+    }
 
-        return view('Test.result', ['num1'=>$num1, 'num2'=>$num2, 'num3'=>$num3]);
+    public function postGet(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('Test.form');
+        }
+
+        if($request->isMethod('POST')){
+            $data = $request->all();
+            $num1 = $request->input('num1');
+            $num2 = $request->input('num2');
+
+            return view('Test.result', ['num1'=>$num1, 'num2'=>$num2, 'data'=>$data]);
+        }
+    }
+
+    public function registration(Request $request, $name, $surname)
+    {
+        if($request->isMethod('get')){
+            return view('Test.form');
+        }
+
+        if($request->isMethod('post')){
+            //$data = $request->except('password', 'email', '_token');
+            if($name == 'anton' and $surname == 'yuriv'){
+                $data = $request->only('name', 'surname', 'login');
+            }else{
+                $data = ['wrong'];
+            }
+
+            return view('Test.result', ['data'=>$data]);
+        }
+    }
+
+    public function method(Request $request)
+    {
+        $path = $request->path();
+        $url = $request->url();
+        $fullUrl = $request->fullUrl();
+        $fullUrlWithQuery = $request->fullUrlWithQuery(['page'=>'1']);
+
+        if($request->is('test/method?param=1')){
+            return view('Test.method', ['path'=>$path, 'url'=>$url, 'fullUrl'=>$fullUrl, 'fullUrlWithQuery'=>$fullUrlWithQuery]);
+        }else{
+            return view('Test.about', ['title'=>'asd']);
+        }
+
     }
 }

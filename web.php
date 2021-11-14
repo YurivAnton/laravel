@@ -93,5 +93,13 @@ Route::get('/product/{category_id}/', [Product::class, 'showCategory']);
 Route::get('/categories/', [Product::class, 'showCategoryList']);
 
 //11
-Route::get('/test/form/', [Test::class, 'form']);
-Route::get('/test/result', [Test::class, 'result']);
+/*Route::get('/test/form/', [Test::class, 'form']);
+Route::post('/test/result/', [Test::class, 'result']);*/
+
+//12
+//Route::match(['GET', 'POST'], '/test/form/', [Test::class, 'postGet']);
+
+//13
+//Route::match(['GET', 'POST'], '/test/form/', [Test::class, 'registration']);
+Route::match(['get', 'post'], '/test/form/{name}/{surname}/', [Test::class, 'registration']);
+Route::get('/test/method/', [Test::class, 'method']);
