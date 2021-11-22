@@ -14,8 +14,12 @@
     @endforeach
 </ul>--}}
 
-<ul>
+{{--<ul>
     @foreach($data as $key=>$elem)
         <li>{{ $key }} - {{ $elem }}</li>
     @endforeach
-</ul>
+</ul>--}}
+
+{{--15--}}
+форма успешна отправлена
+{{ $email }}

@@ -78,19 +78,19 @@ Route::get('/employee/showField/{id}/{param}/', [Employee::class, 'showField'])-
 Route::get('/test/sum/{num1}/{num2}/', [Test::class, 'sum'])->where(['num1'=>'\d+', 'num2'=>'\d+']);*/
 
 //6
-Route::get('/test/show/', [Test::class, 'show']);
+/*Route::get('/test/show/', [Test::class, 'show']);
 Route::get('/', [Test::class, 'home']);
 Route::get('/contact/', [Test::class, 'contact']);
 Route::get('/about', [Test::class, 'about']);
-Route::get('/test/practic/', [Test::class, 'practic']);
+Route::get('/test/practic/', [Test::class, 'practic']);*/
 
 //10
-Route::get('/posts/{id}/', [PostController::class, 'showOne']);
+/*Route::get('/posts/{id}/', [PostController::class, 'showOne']);
 Route::get('/posts/', [PostController::class, 'showAll']);
 
 Route::get('/product/{category_id}/{product_id}/', [Product::class, 'showProduct']);
 Route::get('/product/{category_id}/', [Product::class, 'showCategory']);
-Route::get('/categories/', [Product::class, 'showCategoryList']);
+Route::get('/categories/', [Product::class, 'showCategoryList']);*/
 
 //11
 /*Route::get('/test/form/', [Test::class, 'form']);
@@ -101,5 +101,28 @@ Route::post('/test/result/', [Test::class, 'result']);*/
 
 //13
 //Route::match(['GET', 'POST'], '/test/form/', [Test::class, 'registration']);
-Route::match(['get', 'post'], '/test/form/{name}/{surname}/', [Test::class, 'registration']);
-Route::get('/test/method/', [Test::class, 'method']);
+/*Route::match(['get', 'post'], '/test/form/{name}/{surname}/', [Test::class, 'registration']);
+Route::get('/test/method/', [Test::class, 'method']);*/
+
+//14
+/*Route::get('/test/session/', [Test::class, 'sessionPut']);
+Route::get('/test/sessionGet/', [Test::class, 'sessionGEt']);
+Route::get('/test/method1/', [Test::class, 'method1']);
+Route::get('/test/method2/', [Test::class, 'method2']);
+Route::get('/test/sessionFlush/', [Test::class, 'sessionFlush']);
+Route::get('/test/all/', [Test::class, 'all']);
+Route::get('/test/sessionHas/', [Test::class, 'sessionHas']);
+Route::get('/test/session/', [Test::class, 'session']);*/
+
+//15
+//Route::match(['get', 'post'], '/test/redirect/', [Test::class, 'redirect']);
+//Route::match(['get', 'post'], '/test/redirect2/', [Test::class, 'redirect2']);
+//Route::get('/test/redirect2', [Test::class, 'redirect2'])->name('red');
+Route::get('/test/red/', [Test::class, 'red']);
+Route::get('/test/{param1}/{param2}/', [Test::class, 'result'])->name('result');
+
+//16
+/*Route::get('/test/flash/', [Test::class, 'flash']);
+Route::get('/test/result/', [Test::class, 'result']);*/
+
+

@@ -13,4 +13,6 @@
 
 @section('main')
     Main-about
+    {{--{{ $session ?? ''}}--}}
+    {{ $value }}
 @endsection

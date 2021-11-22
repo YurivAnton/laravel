@@ -13,4 +13,5 @@
 
 @section('main')
     Main-contact
+    {{ var_dump($sessionAll) }}
 @endsection

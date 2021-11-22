@@ -33,7 +33,7 @@
 </form>--}}
 
 {{--13--}}
-<form action="" method="POST">
+{{--<form action="" method="POST">
     {{ csrf_field() }}
     <label>name<br>
         <input type="text" name="name"><br>
@@ -51,4 +51,33 @@
         <input type="password" name="password"><br>
     </label>
         <input type="submit"><br>
+</form>--}}
+
+{{--15--}}
+{{--{{ $message }}
+<form action="" method="get">
+    <input type="text" name="num">
+    <input type="submit">
+</form>--}}
+
+{{ $message }}
+<form action="" method="get">
+    {{ csrf_field() }}
+    <input name="email">
+    <input type="submit">
 </form>
+
+{{--16--}}
+{{--<form action="" method="get">
+    <input type="text" name="name">
+    <input type="text" name="age">
+    <input type="submit">
+</form>--}}
+{{--<form action="" method="get">
+    <input type="text" name="num1">
+    <input type="text" name="num2">
+    <input type="text" name="num3">
+    <input type="text" name="num4">
+    <input type="text" name="num5">
+    <input type="submit">
+</form>--}}
