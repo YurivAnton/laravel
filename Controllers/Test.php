@@ -4,6 +4,8 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Cookie;
+use Illuminate\Support\Facades\DB;
 
 class Test extends Controller
 {
@@ -375,7 +377,7 @@ class Test extends Controller
     }*/
 
     //15
-    public function redirect(Request $request)
+    /*public function redirect(Request $request)
     {
         $message = '';
         if ($request->has('email')) {
@@ -407,7 +409,7 @@ class Test extends Controller
     public function result(Request $request, $param1, $param2)
     {
         return $param1.' '.$param2;
-    }
+    }*/
 
     //16
     /*public function flash(Request $request)
@@ -416,14 +418,149 @@ class Test extends Controller
         if($request->has('num1') and $request->has('num2') and $request->has('num3') and
             $request->has('num4') and $request->has('num5')){
             $request->flash();
-            return redirect('/test/result/')->withInput();
+            //return redirect('/test/result/')->withInput();
+            return view('Test.form');
         }else{
+            $request->flash();
             return view('Test.form');
         }
     }
 
     public function result(Request $request)
     {
-        return $request->old('num1');
+        return $request->old('num1') + $request->old('num2') + $request->old('num3') +
+                 $request->old('num4') + $request->old('num5');
     }*/
+
+    //17
+    /*public function response()
+    {
+        return response('Hello world', 200)->header('Content-Type', 'text/plain');
+    }*/
+
+    //18 cookie
+    public function cookie(Request $request)
+    {
+        //18.1
+        /*if (empty(Cookie::get('time'))) {
+            Cookie::queue('time', time(), 3);
+        }else{
+            $result = time() - Cookie::get('time');
+            if ($result >= 0 and $result <=60) {
+                return $result.' sec';
+            }elseif($result > 60 and $result <= 3600){
+                return floor($result/60).' min '.($result %= 60).' sec';
+            }
+        }*/
+        //18.2
+        /*$message = '';
+        if ($request->has('birthday')){
+            $birthday = $request->input('birthday');
+            if (preg_match('#\d{4}-\d{2}-\d{2}#', $birthday)) {
+                //Cookie::queue('birthday', $birthday, 2);
+                $yearsOld = explode('-', $birthday);
+                if (date('m') == $yearsOld[1] and date('d') == $yearsOld[2]){
+                    $message = 'vitayu z D N vam '.(date('Y') - $yearsOld[0]).' rokiv';
+                    $cookie = Cookie::queue('message', $message, 2);
+                    return view('Test.form', ['message'=>$cookie]);
+                }
+            }else{
+                $message = 'nepravelny format(yyyy-mm-dd)';
+                return view('Test.form', ['message'=>$message]);
+            }
+        }else{
+            return view('Test.form', ['message'=>$message]);
+        }*/
+
+        //18.3
+        /*if (empty(Cookie::get('counter'))){
+            Cookie::queue('counter', 1, 2);
+        }else{
+            $counter = Cookie::get('counter') + 1;
+            Cookie::queue('counter', $counter, 2);
+        }
+        return view('Test.form');*/
+    }
+
+    //20.1-20.5
+    /*public function select()
+    {
+        $users = DB::select('select * from users where age > 333');
+
+        return view('Test.result', ['users' => $users]);
+    }
+
+    public function insert($name, $surname, $age)
+    {
+        DB::insert('insert into users (name, surname, age) values(?, ?, ?)', [$name, $surname, $age]);
+    }
+
+    public function delete($id)
+    {
+        DB::delete('delete from users where id = ?', [$id]);
+    }
+
+    public function update($id, $age)
+    {
+        DB::update("update users set age = $age where id = ?", [$id]);
+    }*/
+
+    //21
+    public function allEmployees()
+    {
+        /*$employees = DB::table('employees')->get();
+        return view('Test.result', ['employees'=>$employees]);*/
+        $employees = DB::table('employees')->select('name', 'salary')->get();
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function where()
+    {
+        //21.4
+        //$employees = DB::table('employees')->where('salary', '=', 500)->get();
+        //21.5
+        //$employees = DB::table('employees')->where('salary', '>', 450)->get();
+        //21.6
+        $employees = DB::table('employees')->where('salary', '!=', 500)->get();
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function orWhere()
+    {
+        //21.7
+        //$employees = DB::table('employees')->where('salary', 400)
+          //                                      ->orWhere('id', '>', 4)->get();
+        //21.8
+        //$employees = DB::table('employees')->where('id', 3)->first();
+        //21.9
+        $employees = DB::table('employees')->where('id', 5)->value('name');
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function pluck()
+    {
+        //21.10
+        $employees = DB::table('employees')->pluck('name');
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function whereBetween()
+    {
+        //21.11
+        //$employees = DB::table('employees')->whereBetween('salary', [450, 1100])->get();
+        //21.12
+        //$employees = DB::table('employees')->whereNotBetween('salary', [300, 600])->get();
+        //21.13
+        //$employees = DB::table('employees')->whereIn('id', [1, 2, 3, 5])->get();
+        //21.14
+        //$employees = DB::table('employees')->whereNotIn('id', [1, 2, 3])->get();
+        //21.15
+        //$employees = DB::table('employees')->where(function ($query){
+        //        $query->whereIn('id', [1,2,3])
+        //                ->whereBetween('salary', [400, 800]);
+        //    })->get();
+        //21.16
+        $employees = DB::table('employees')->whereSalaryOrPosition(500, 'Program')->first();
+        return view('Test.result', ['employees'=>$employees]);
+    }
 }

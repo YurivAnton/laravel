@@ -21,5 +21,44 @@
 </ul>--}}
 
 {{--15--}}
-форма успешна отправлена
-{{ $email }}
+{{--форма успешна отправлена
+{{ $email }}--}}
+
+{{--20--}}
+{{--
+<table border="1">
+@foreach($users as $user)
+    <tr>
+        @foreach($user as $elem)
+            <td>
+                {{ $elem }}
+            </td>
+        @endforeach
+    </tr>
+@endforeach
+</table>
+--}}
+
+{{--21--}}
+<table border="1">
+    @foreach($employees as $employee)
+        <tr>
+            @foreach($employee as $elem)
+                <td>
+                    {{ $elem }}
+                </td>
+            @endforeach
+        </tr>
+    @endforeach
+</table>
+{{--21.8-21.9--}}
+{{--<table border="1">
+    <tr>
+        --}}{{--<td>{{ $employees }}</td>--}}{{--
+    @foreach($employees as $employee)
+        <td>
+            {{ $employee }}
+        </td>
+    @endforeach
+    </tr>
+</table>--}}

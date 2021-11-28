@@ -60,12 +60,12 @@
     <input type="submit">
 </form>--}}
 
-{{ $message }}
+{{--{{ $message }}
 <form action="" method="get">
     {{ csrf_field() }}
     <input name="email">
     <input type="submit">
-</form>
+</form>--}}
 
 {{--16--}}
 {{--<form action="" method="get">
@@ -74,10 +74,19 @@
     <input type="submit">
 </form>--}}
 {{--<form action="" method="get">
-    <input type="text" name="num1">
-    <input type="text" name="num2">
-    <input type="text" name="num3">
-    <input type="text" name="num4">
-    <input type="text" name="num5">
+    <input type="text" name="num1" value="{{ old('num1') }}">
+    <input type="text" name="num2" value="{{ old('num2') }}">
+    <input type="text" name="num3" value="{{ old('num3') }}">
+    <input type="text" name="num4" value="{{ old('num4') }}">
+    <input type="text" name="num5" value="{{ old('num5') }}">
     <input type="submit">
 </form>--}}
+
+{{--18--}}
+{{--{{ $message }}
+{{ Cookie::get('message') }}
+<form action="" method="get">
+    <input type="text" name="birthday">
+    <input type="submit">
+</form>--}}
+{{ Cookie::get('counter') }}

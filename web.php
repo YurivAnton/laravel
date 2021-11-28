@@ -118,11 +118,29 @@ Route::get('/test/session/', [Test::class, 'session']);*/
 //Route::match(['get', 'post'], '/test/redirect/', [Test::class, 'redirect']);
 //Route::match(['get', 'post'], '/test/redirect2/', [Test::class, 'redirect2']);
 //Route::get('/test/redirect2', [Test::class, 'redirect2'])->name('red');
-Route::get('/test/red/', [Test::class, 'red']);
-Route::get('/test/{param1}/{param2}/', [Test::class, 'result'])->name('result');
+/*Route::get('/test/red/', [Test::class, 'red']);
+Route::get('/test/{param1}/{param2}/', [Test::class, 'result'])->name('result');*/
 
 //16
 /*Route::get('/test/flash/', [Test::class, 'flash']);
 Route::get('/test/result/', [Test::class, 'result']);*/
 
+//17
+//Route::get('/test/response/', [Test::class, 'response']);
 
+//18
+/*Route::get('/test/cookie/', [Test::class, 'cookie']);
+Route::get('/test/result/', [Test::class, 'result']);*/
+
+//20.1-20.5
+/*Route::get('/test/select/', [Test::class, 'select']);
+Route::get('/test/insert/{name}/{surname}/{age}/', [Test::class, 'insert']);
+Route::get('/test/delete/{id}/', [Test::class, 'delete']);
+Route::get('/test/update/{id}/{age}', [Test::class, 'update']);*/
+
+//21
+Route::get('/test/allEmployees/', [Test::class, 'allEmployees']);
+Route::get('/test/where/', [Test::class, 'where']);
+Route::get('/test/orWhere/', [Test::class, 'orWhere']);
+Route::get('/test/pluck/', [Test::class, 'pluck']);
+Route::get('/test/whereBetween/', [Test::class, 'whereBetween']);
