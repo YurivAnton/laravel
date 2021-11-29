@@ -40,8 +40,9 @@
 --}}
 
 {{--21--}}
+{{--
 <table border="1">
-    @foreach($employees as $employee)
+   @foreach($employees as $employee)
         <tr>
             @foreach($employee as $elem)
                 <td>
@@ -50,6 +51,13 @@
             @endforeach
         </tr>
     @endforeach
+--}}
+{{ $employees }}
+{{--
+@foreach($employees as $employee)
+    {{ $employee }}
+@endforeach
+--}}
 </table>
 {{--21.8-21.9--}}
 {{--<table border="1">
@@ -62,3 +70,16 @@
     @endforeach
     </tr>
 </table>--}}
+
+
+{{--
+<table border="1">
+    @foreach($events as $event)
+        <tr>
+            @foreach($event as $elem)
+                <td>{{ $elem }}</td>
+            @endforeach
+        </tr>
+    @endforeach
+</table>
+--}}

@@ -560,7 +560,29 @@ class Test extends Controller
         //                ->whereBetween('salary', [400, 800]);
         //    })->get();
         //21.16
-        $employees = DB::table('employees')->whereSalaryOrPosition(500, 'Program')->first();
+        //$employees = DB::table('employees')->whereSalaryOrPosition(500, 'Program')->first();
+        //21.17
+        $employees = DB::table('employees')->whereSalaryAndPosition(500, 'Program')->get();
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function whereColumn()
+    {
+        //21.19
+        $events = DB::table('events')->whereColumn('start', 'finish')->get();
+        return view('Test.result', ['events'=>$events]);
+    }
+
+    public function orderBy()
+    {
+        //21.20
+        //$employees = DB::table('employees')->orderBy('salary', 'asc')->get();
+        //21.21
+        //$employees = DB::table('employees')->orderBy('birthday', 'desc')->get();
+        //21.22
+        //$employees = DB::table('employees')->max('salary');
+        //21.23
+        $employees = DB::table('employees')->sum('salary');
         return view('Test.result', ['employees'=>$employees]);
     }
 }

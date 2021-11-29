@@ -144,3 +144,5 @@ Route::get('/test/where/', [Test::class, 'where']);
 Route::get('/test/orWhere/', [Test::class, 'orWhere']);
 Route::get('/test/pluck/', [Test::class, 'pluck']);
 Route::get('/test/whereBetween/', [Test::class, 'whereBetween']);
+Route::get('/test/whereColumn/', [Test::class, 'whereColumn']);
+Route::get('/test/orderBy/', [Test::class, 'orderBy']);
