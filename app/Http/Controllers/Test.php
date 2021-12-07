@@ -585,4 +585,57 @@ class Test extends Controller
         $employees = DB::table('employees')->sum('salary');
         return view('Test.result', ['employees'=>$employees]);
     }
+
+    public function groupBy()
+    {
+        //$employees = DB::table('employees')->select('position', DB::raw('MIN(salary)'))
+        //    ->groupBy('position')->get();
+        $employees = DB::table('employees')->select('position', DB::raw('SUM(salary)'))
+            ->groupBy('position')->get();
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function date()
+    {
+        //$employees = DB::table('employees')->whereDate('birthday', '1988-03-25')
+        //    ->get();
+        //$employees = DB::table('employees')->whereDay('birthday', '25')
+        //    ->get();
+        //$employees = DB::table('employees')->whereMonth('birthday', '03')
+        //    ->get();
+        $employees = DB::table('employees')->whereYear('birthday', '1990')
+            ->get();
+        return view('Test.result', ['employees'=>$employees]);
+    }
+
+    public function insert()
+    {
+        /*DB::table('users')->insert([
+            'login'=>'anton', 'password'=>'123', 'email'=>'123@123.com'
+        ]);*/
+        DB::table('users')->insert([
+            ['login'=>'aaa', 'password'=>'111', 'email'=>'111@111.com'],
+            ['login'=>'bbb', 'password'=>'222', 'email'=>'222@222.com'],
+            ['login'=>'ccc', 'password'=>'333', 'email'=>'333@333.com']
+        ]);
+    }
+
+    public function update()
+    {
+        DB::table('users')->where('id', '7')->update(['login'=>'111', 'email'=>'111@111.com']);
+    }
+
+    public function delete($id)
+    {
+        DB::table('users')->where('id', $id)->delete();
+    }
+
+    public function productsAll()
+    {
+        $products = DB::table('categories')
+            ->join('products', 'categories.id', '=', 'products.category_id')
+            ->select('products.id', 'products.name', 'products.price', 'categories.name as category')
+            ->get();
+        return view('Test.result', ['products'=>$products]);
+    }
 }

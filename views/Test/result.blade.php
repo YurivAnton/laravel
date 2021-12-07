@@ -52,13 +52,13 @@
         </tr>
     @endforeach
 --}}
-{{ $employees }}
+{{--{{ $employees }}--}}
 {{--
 @foreach($employees as $employee)
     {{ $employee }}
 @endforeach
---}}
 </table>
+--}}
 {{--21.8-21.9--}}
 {{--<table border="1">
     <tr>
@@ -83,3 +83,27 @@
     @endforeach
 </table>
 --}}
+
+{{--21.24--}}
+{{--<table border="1">
+    @foreach($employees as $employee)
+        <tr>
+            @foreach($employee as $elem)
+                <td>
+                    {{ $elem }}
+                </td>
+            @endforeach
+        </tr>
+    @endforeach
+</table>--}}
+
+{{--23.2--}}
+{{--<table border="1">
+    @foreach($products as $product)
+        <tr>
+            @foreach($product as $elem)
+                <td>{{ $elem }}</td>
+            @endforeach
+        </tr>
+    @endforeach
+</table>--}}

@@ -2,12 +2,94 @@
 
 
 namespace App\Http\Controllers;
+use App\Post;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 
 class PostController extends Controller
 {
-    private $posts;
+    /*25.1*/
+    public function getAll(Request $request, $order = 'date', $dir = 'desc')
+    {
+        $message = $request->session()->get('status');
+        $posts = Post::orderBy($order, $dir)->get();
+        return view('Test.all', ['posts'=>$posts, 'message'=>$message]);
+    }
+
+    public function getOne($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('Test.one', ['post'=>$post]);
+    }
+
+    public function newPost(Request $request)
+    {
+        if ($request->has('title') and $request->has('description') and $request->has('text')){
+            $post = new Post;
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->text = $request->input('text');
+            $post->date = date('Y-m-d');
+            $post->save();
+        }else{
+            return view('Test.newPost');
+        }
+    }
+
+    public function update()
+    {
+        /*$post = Post::find(1);
+        $post->title = 'afdlasjfdlaskdfjls';
+        $post->description = '111112345342654362264';
+        $post->save();*/
+        Post::where('id', '<', '5')
+            ->where('date', '2021-12-07')
+            ->update(['title'=>'????']);
+    }
+
+    public function editPost(Request $request, $id)
+    {
+        $post = Post::find($id);
+        if ($request->has('submit')){
+            $post->title = $request->title;
+            $post->description = $request->description;
+            $post->text = $request->text;
+            $post->date = $request->date;
+
+            $post->save();
+            $request->session()->flash('status', "post id=$id and title=$request->title editing ok");
+            return redirect('/post/all/');
+        }else{
+            return view('Test.editPost', ['post'=>$post]);
+        }
+    }
+
+    public function delPost(Request $request, $id)
+    {
+        $post = Post::find($id);
+        $request->session()->flash('status', "post title=$post->title delete ok");
+        $post->delete();
+
+        return redirect('/post/all/');
+    }
+
+    public function getDeletedPost()
+    {
+        $deletedPost = Post::onlyTrashed()->get();
+
+        return view('Test.deletedPost', ['deletedPost'=>$deletedPost]);
+    }
+
+    public function restorePost($id)
+    {
+        $post = Post::withTrashed()->where('id', $id);
+        $post->restore();
+
+        return redirect('/post/deletedPost/');
+    }
+
+    /*private $posts;
 
     public function __construct()
     {
@@ -62,5 +144,5 @@ class PostController extends Controller
     public function showAll()
     {
         return view('Post.showAll', ['posts'=>$this->posts]);
-    }
+    }*/
 }

@@ -139,10 +139,26 @@ Route::get('/test/delete/{id}/', [Test::class, 'delete']);
 Route::get('/test/update/{id}/{age}', [Test::class, 'update']);*/
 
 //21
-Route::get('/test/allEmployees/', [Test::class, 'allEmployees']);
+/*Route::get('/test/allEmployees/', [Test::class, 'allEmployees']);
 Route::get('/test/where/', [Test::class, 'where']);
 Route::get('/test/orWhere/', [Test::class, 'orWhere']);
 Route::get('/test/pluck/', [Test::class, 'pluck']);
 Route::get('/test/whereBetween/', [Test::class, 'whereBetween']);
 Route::get('/test/whereColumn/', [Test::class, 'whereColumn']);
 Route::get('/test/orderBy/', [Test::class, 'orderBy']);
+Route::get('/test/groupBy/', [Test::class, 'groupBy']);
+Route::get('/test/date/', [Test::class, 'date']);
+Route::get('/test/insert/', [Test::class, 'insert']);
+Route::get('/test/update/', [Test::class, 'update']);
+Route::get('/test/delete/{id}/', [Test::class, 'delete']);
+Route::get('/test/products/all', [Test::class, 'productsAll']);*/
+
+//25
+Route::get('/post/all/{order?}/{dir?}/', [PostController::class, 'getAll'])->where(['order'=>'id|title|date', 'dir'=>'asc|desc']);
+Route::get('/post/{id}/', [PostController::class, 'getOne'])->where('id', '\d+');
+Route::get('/post/new/', [PostController::class, 'newPost']);
+Route::get('/post/update/', [PostController::class, 'update']);
+Route::match(['post', 'get'], '/post/edit/{id}/', [PostController::class, 'editPost']);
+Route::get('/post/del/{id}/', [PostController::class, 'delPost']);
+Route::get('/post/deletedPost/', [PostController::class, 'getDeletedPost']);
+Route::get('/post/restorePost/{id}/', [PostController::class, 'restorePost']);
