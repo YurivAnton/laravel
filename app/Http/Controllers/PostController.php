@@ -3,12 +3,38 @@
 
 namespace App\Http\Controllers;
 use App\Post;
+use App\User;
+use App\Profile;
+use App\City;
+use App\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 
 class PostController extends Controller
 {
+    public function getUser($id)
+    {
+        //28.1
+        //$user = User::find($id);
+        //return view('Test.result', ['user'=>$user]);
+
+        //28.2
+        //$users = User::all();
+        //return view('Test.result', ['users'=>$users]);
+
+        //28.4-28.5
+        //$city = City::find(1);
+        //return view('Test.result', ['city'=>$city]);
+
+        //28.6
+        //$cities = City::all();
+        //return view('Test.result', ['cities'=>$cities]);
+
+        //28.7-28.8
+        $countries = Country::all();
+        return view('Test.result', ['countries'=>$countries]);
+    }
     /*25.1*/
     public function getAll(Request $request, $order = 'date', $dir = 'desc')
     {

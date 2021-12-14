@@ -6,6 +6,7 @@ use App\Http\Controllers\Test;
 use App\Http\Controllers\Employee;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Product;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -154,11 +155,16 @@ Route::get('/test/delete/{id}/', [Test::class, 'delete']);
 Route::get('/test/products/all', [Test::class, 'productsAll']);*/
 
 //25
-Route::get('/post/all/{order?}/{dir?}/', [PostController::class, 'getAll'])->where(['order'=>'id|title|date', 'dir'=>'asc|desc']);
+/*Route::get('/post/all/{order?}/{dir?}/', [PostController::class, 'getAll'])->where(['order'=>'id|title|date', 'dir'=>'asc|desc']);
 Route::get('/post/{id}/', [PostController::class, 'getOne'])->where('id', '\d+');
 Route::get('/post/new/', [PostController::class, 'newPost']);
 Route::get('/post/update/', [PostController::class, 'update']);
 Route::match(['post', 'get'], '/post/edit/{id}/', [PostController::class, 'editPost']);
 Route::get('/post/del/{id}/', [PostController::class, 'delPost']);
 Route::get('/post/deletedPost/', [PostController::class, 'getDeletedPost']);
-Route::get('/post/restorePost/{id}/', [PostController::class, 'restorePost']);
+Route::get('/post/restorePost/{id}/', [PostController::class, 'restorePost']);*/
+
+//28
+Route::get('/user/{id}/', [PostController::class, 'getUser']);
+Route::get('/product/', [ProductController::class, 'product']);
+Route::get('/category/', [ProductController::class, 'category']);

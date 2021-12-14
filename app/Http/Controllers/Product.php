@@ -76,4 +76,10 @@ class Product extends Controller
     {
         return view('Product.showCategoryList', ['categories'=>$this->categories]);
     }
+
+    //28.13
+    public function product()
+    {
+        $product =
+    }
 }
