@@ -7,6 +7,8 @@ use App\Http\Controllers\Employee;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Product;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FormController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -165,6 +167,13 @@ Route::get('/post/deletedPost/', [PostController::class, 'getDeletedPost']);
 Route::get('/post/restorePost/{id}/', [PostController::class, 'restorePost']);*/
 
 //28
-Route::get('/user/{id}/', [PostController::class, 'getUser']);
+/*Route::get('/user/{id}/', [PostController::class, 'getUser']);
 Route::get('/product/', [ProductController::class, 'product']);
-Route::get('/category/', [ProductController::class, 'category']);
+Route::get('/category/', [ProductController::class, 'category']);*/
+
+//31
+/*Route::get('/user/', [UserController::class, 'show']);*/
+
+//35
+Route::get('/validator/', [FormController::class, 'show']);
+Route::get('/vali', [FormController::class, 'show']);

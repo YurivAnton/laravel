@@ -253,6 +253,7 @@
 @endforeach
 --}}
 {{--28.14--}}
+{{--
 @foreach($categories as $category)
     {{ $category->name }}<br>
     @foreach($category->products as $product)
@@ -260,3 +261,18 @@
     @endforeach
     <br><br>
 @endforeach
+--}}
+
+
+{{--31.1-31.2--}}
+<table border="1">
+    <th>login</th>
+    <th>password</th>
+    @foreach($users as $user)
+        <tr>
+            <td>{{ $user->login }}</td>
+            <td>{{ $user->password }}</td>
+        </tr>
+    @endforeach
+</table>
+{{ $users->links() }}
