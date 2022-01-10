@@ -6,13 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    public function city()
+    public function cities()
     {
         return $this->hasMany('App\City');
-    }
-
-    public function users()
-    {
-        return $this->hasManyThrough('App\User', 'App\City');
     }
 }
