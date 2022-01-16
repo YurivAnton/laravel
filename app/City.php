@@ -15,4 +15,9 @@ class City extends Model
     {
         return $this->hasMany('App\Attraction');
     }
+
+    public function descriptions()
+    {
+        return $this->hasManyThrough( 'App\Description', 'App\Attraction');
+    }
 }

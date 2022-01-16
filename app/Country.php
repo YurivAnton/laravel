@@ -10,4 +10,9 @@ class Country extends Model
     {
         return $this->hasMany('App\City');
     }
+
+    public function attractions()
+    {
+        return $this->hasManyThrough('App\Attraction', 'App\City');
+    }
 }

@@ -13,6 +13,6 @@ class Attraction extends Model
 
     public function descriptions()
     {
-        return $this->hasOne('App\Description');
+        return $this->hasMany('App\Description');
     }
 }

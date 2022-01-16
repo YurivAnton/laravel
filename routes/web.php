@@ -27,4 +27,6 @@ Route::match(['get', 'post'], '/bulletinBoard', 'BulletinBoard@index');
 Route::match(['get', 'post'], '/bulletinBoard/add', 'BulletinBoard@index');
 
 Route::get('/countries/', 'CountriesCities@index')->middleware('auth');
-Route::get('/countries/{admin}', 'CountriesCities@admin')->middleware('CheckRole:admin');
+Route::get('/countries/admin/', 'CountriesCities@admin')->middleware('auth', 'CheckRole:admin');
+Route::get('/countries/admin/show/{title}', 'CountriesCities@show')->middleware('auth', 'CheckRole:admin');
+Route::get('/countries/admin/add/{title}', 'CountriesCities@add')->middleware('auth', 'CheckRole:admin');
