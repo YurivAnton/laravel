@@ -1,3 +1,9 @@
+@extends('layouts.app')
+@section('menu')
+    <a class="navbar-brand" href="/countries">countries</a>
+    <a class="navbar-brand" href="/countries/admin">admin</a>
+@endsection
+@section('content')
 <a href="/countries">Countries</a>
 <ol>
     @foreach($cities as $city)
@@ -6,3 +12,4 @@
         </li>
     @endforeach
 </ol>
+@endsection

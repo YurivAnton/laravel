@@ -1,3 +1,9 @@
+@extends('layouts.app')
+@section('menu')
+    <a class="navbar-brand" href="/guestBoard">guestBoard</a>
+    <a class="navbar-brand" href="/guestBoard/moderator">moderator</a>
+@endsection
+@section('content')
 @if(session('status'))
     <h1>
         {{ session('status') }}
@@ -23,3 +29,4 @@
         </tr>
     @endforeach
 </table>
+@endsection

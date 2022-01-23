@@ -1,3 +1,9 @@
+@extends('layouts.app')
+@section('menu')
+    <a class="navbar-brand" href="/guestBoard">guestBoard</a>
+    <a class="navbar-brand" href="/guestBoard/moderator">moderator</a>
+@endsection
+@section('content')
 @if(!empty($message))
     <h1>{{ $message }}</h1>
     <br>
@@ -11,7 +17,9 @@
 @endforeach
 <form action="/guestBoard/add" method="post">
     {{ csrf_field() }}
-    <input name="name" value="{{ old('name') }}">
-    <textarea name="text">{{ old('text') }}</textarea>
+    author's name<br>
+    <input name="name" value="{{ old('name') }}"><br><br>
+    <textarea name="text">{{ old('text') }}</textarea><br><br>
     <input type="submit" name="submit">
 </form>
+@endsection

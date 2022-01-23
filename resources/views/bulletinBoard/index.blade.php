@@ -1,3 +1,8 @@
+@extends('layouts.app')
+@section('menu')
+    <a class="navbar-brand" href="/bulletinBoard">bulletinBoard</a>
+@endsection
+@section('content')
 @if(!empty($bulletins))
     <a href="/bulletinBoard">home</a>
     <br>
@@ -30,3 +35,4 @@
     @endforeach
 </ol>
 @endif
+@endsection

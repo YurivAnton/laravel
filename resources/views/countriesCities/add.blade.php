@@ -1,3 +1,9 @@
+@extends('layouts.app')
+@section('menu')
+    <a class="navbar-brand" href="/countries">countries</a>
+    <a class="navbar-brand" href="/countries/admin">admin</a>
+@endsection
+@section('content')
 @if(session('status'))
     {{ session('status') }}
 @endif
@@ -7,8 +13,16 @@
 <p>add new {{ $title }}</p>
 
 <form action="" method="get">
-    @if($title == 'Attraction')
-        {!! $selectCountry !!}
+    {!! $selectCountry !!}
+    {!! $selectNewCountry !!}
+    {!! $selectCity !!}
+    {!! $selectNewCity !!}
+    {!! $selectAttraction !!}
+    {!! $selectNewAttraction !!}
+    {!! $selectDescription !!}
+    {!! $selectNewDescription !!}
+
+    {{--@if($title == 'Attraction')
         {!! $selectCity !!}
     @endif
     @if($title == 'City')
@@ -18,9 +32,11 @@
             {!! $selectCountry !!}
             {!! $selectCity !!}
             {!! $selectAttraction !!}
-        <textarea name="descriptionOfAttraction">text</textarea>
+        <textarea name="new">text</textarea>
     @else
         <input name="new" value="{{ old('new') }}">
-    @endif
+    @endif--}}
     <input type="submit" name="add">
 </form>
+
+@endsection

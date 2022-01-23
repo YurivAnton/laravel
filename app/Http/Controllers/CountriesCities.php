@@ -13,12 +13,14 @@ class CountriesCities extends Controller
     private $countries;
     private $cities;
     private $attractions;
+    private $descriptions;
 
     public function __construct()
     {
         $this->countries = Country::all();
         $this->cities = City::all();
         $this->attractions = Attraction::all();
+        $this->descriptions = Description::all();
     }
 
     public function index(Request $request)
@@ -55,62 +57,56 @@ class CountriesCities extends Controller
 
     public function show(Request $request, $title)
     {
-        $countries = $this->countries;
-        $cities = City::all();
-        $attractions = Attraction::all();
-        $description = Description::all();
         $names = '';
+
+        if ($request->has('orderBy')){
+            $orderBy = $request->get('orderBy');
+            $request->session()->put('orderBy', $orderBy);
+        }else{
+            $orderBy = '';
+        }
 
         if ($title == 'Country'){
             $names = $this->countries;
         }
 
         if ($title == 'City'){
-            if ($request->has('orderByCountry')){
-                $orderByCountry = $request->get('orderByCountry');
-                $request->session()->put('orderByCountry', $orderByCountry);
-                $names = Country::where('name', '=', $orderByCountry)->first()->cities;
+            if (!empty($orderBy)){
+                $names = Country::where('name', '=', $orderBy)->first()->cities;
             }else{
                 $names = City::orderBy('country_id')->get();
             }
         }
 
         if ($title == 'Attraction'){
-            if($request->has('orderByCountry') AND $request->has('orderByCity')){
-                if($request->get('orderByCity') != 'all') {
-                    $names = City::where('name', '=', $request->get('orderByCity'))->first()->attractions;
-                }elseif($request->get('orderByCountry') != 'all'){
-                    $names = Country::where('name', '=', $request->get('orderByCountry'))->first()->attractions;
-                }else{
-                    $names = Attraction::orderBy('city_id')->get();
-                }
-            }else{
+            if(!empty($orderBy)) {
+                $names = City::where('name', '=', $orderBy)->first()->attractions;
+            }else {
                 $names = Attraction::orderBy('city_id')->get();
             }
         }
 
         if ($title == 'Description'){
-            if($request->has('orderByCountry') AND $request->has('orderByCity')){
-                if($request->get('orderByAttraction') != 'all'){
-                    $names = Attraction::where('name', '=', $request->get('orderByAttraction'))->get();
-                }elseif($request->get('orderByCity') != 'all') {
-                    $names = City::where('name', '=', $request->get('orderByCity'))->first()->attractions;
-                }elseif($request->get('orderByCountry') != 'all'){
-                    $names = Country::where('name', '=', $request->get('orderByCountry'))->first()->attractions;
-                }else{
-                    $names = Attraction::orderBy('city_id')->get();
-                }
+            if(!empty($orderBy)){
+                $names = Attraction::where('name', '=', $orderBy)->get();
             }else{
                 $names = Attraction::orderBy('city_id')->get();
             }
         }
 
+        $selectCountry = $this->getSelect($request->session()->get('orderBy'), $this->countries, 'orderBy');
+        $selectCity = $this->getSelect($request->session()->get('orderBy'), $this->cities, 'orderBy');
+        $selectAttraction = $this->getSelect($request->session()->get('orderBy'), $this->attractions, 'orderBy');
+
         return view('countriesCities.show', ['title'=>$title,
-            'countries'=>$countries,
-            'cities'=>$cities,
-            'attractions'=>$attractions,
-            'descriptions'=>$description,
-            'names'=>$names
+            'countries'=>$this->countries,
+            'cities'=>$this->cities,
+            'attractions'=>$this->attractions,
+            'descriptions'=>$this->descriptions,
+            'names'=>$names,
+            'selectCountry'=>$selectCountry,
+            'selectCity'=>$selectCity,
+            'selectAttraction'=>$selectAttraction
         ]);
     }
 
@@ -118,96 +114,207 @@ class CountriesCities extends Controller
     {
         $new = $request->new;
 
-        $selectCity = $this->getSelect($request->session()->get('orderByCity'), $this->cities, 'selectCity');
-        $selectCountry = $this->getSelect($request->session()->get('orderByCountry'), $this->countries, 'selectCountry');
+        $selectNewCountry = '<input name="newCountryName" placeholder="!!new country name!!"><br><br>';
+        $selectNewCity = '<input name="newCityName" placeholder="!!new city name!!"><br><br>';
+        $selectNewAttraction = '<input name="newAttractionName" placeholder="!!new attraction name!!"><br><br>';
+        $selectNewDescription = '<textarea name="newDescriptionName"></textarea><br><br>';
 
-        $selectAttraction = $this->getSelect($request->session()->get('orderByAttraction'), $this->attractions, 'selectAttraction');
+        $selectCountry = $this->getSelect($request->session()->get('orderBy'), $this->countries, 'selectCountry');
+        $selectCity = $this->getSelect($request->session()->get('orderBy'), $this->cities, 'selectCity');
+        $selectAttraction = $this->getSelect($request->session()->get('orderBy'), $this->attractions, 'selectAttraction');
+        $selectDescription = $this->getSelect('', $this->descriptions, 'selectDescription');
 
-        if($request->has('add')) {
-            if ($title == 'Country'){
-                /*$request->flash();
-
-                foreach ($this->countries as $country){
-                    if($country->name == $new){
-                        return redirect('/countries/admin/add/Country')->with('status', 'country name already exists');
-                    }
-                }
-                $newCountry = new Country;
-                $newCountry->name = $new;
-                $newCountry->save();
-                return redirect('/countries/admin/add/Country')->with('status', 'Add a new country is successful');*/
-
-            $id = '';
-            $newCountry = new Country;
-            $this->addNew($newCountry, $this->countries, $new, $id, $title, '');
-
-
-            }
-
-            if ($title == 'City'){
-                /*$request->flash();
-                foreach ($this->cities as $city){
-                    if($city->name == $new){
-                        return redirect('/countries/admin/add/City')->with('status', 'city name already exists');
-                    }
-                }
-                $country = Country::where('name', '=', $request->get('selectCountry'))->first();
-                $newCity = new City;
-                $newCity->name = $new;
-                $newCity->country_id = $country->id;
-                $newCity->save();
-                return redirect('/countries/admin/add/City')->with('status', 'Add a new city is successful');*/
-
-                $country = Country::where('name', '=', $request->get('selectCountry'))->first();
-                $id = $country->id;
-                $newCity = new City;
-                $this->addNew($newCity, $this->cities, $new, $id, $title, 'country_id');
-
-            }
-
-            if ($title == 'Attraction'){
-                $city = City::where('name', '=', $request->get('selectCity'))->first();
-                $id = $city->id;
-                $newAttraction = new Attraction;
-                $this->addNew($newAttraction, $this->cities, $new, $id, $title, 'city_id');
+        if ($title == 'City'){
+            if(!empty($request->session()->get('orderBy'))){
+                $selectCountry = $this->getSelect($request->session()->get('orderBy'), $this->countries, 'selectCountry');
+                $selectCity = '';
             }
         }
 
+        if ($title == 'Attraction'){
+            $country = City::where('name', '=', $request->session()->get('orderBy'))->first()->country;
+            $selectCountry = $this->getSelect($country['name'], $this->countries, 'selectCountry');
+            $selectCity = $this->getSelect($request->session()->get('orderBy'), $this->cities, 'selectCity');
+            $selectAttraction = '';
+        }
+
+        if ($title == 'Description'){
+            $city = Attraction::where('name', '=', $request->session()->get('orderBy'))->first()->city;
+            $selectCity = $this->getSelect($city['name'], $this->cities, 'selectCity');
+            $country = City::where('name', '=', $city['name'])->first()->country;
+            $selectCountry = $this->getSelect($country['name'], $this->countries, 'selectCountry');
+            $selectAttraction = $this->getSelect($request->session()->get('orderBy'), $this->attractions, 'selectAttraction');
+            $selectDescription = '';
+        }
+
+        if($request->has('add')) {
+            if($request->has('newCountryName')){
+                $newCountryName = $request->get('newCountryName');
+            }else{
+                $newCountryName = $request->get('selectCountry');
+            }
+
+            if($request->has('newCityName')){
+                $newCityName = $request->get('newCityName');
+            }else{
+                $newCityName = $request->get('selectCity');
+            }
+
+            if($request->has('newAttractionName')){
+                $newAttractionName = $request->get('newAttractionName');
+            }else{
+                $newAttractionName = $request->get('selectAttraction');
+            }
+
+            if($request->has('newDescriptionName')){
+                $newDescriptionName = $request->get('newDescriptionName');
+            }else{
+                $newDescriptionName = $request->get('selectDescription');
+            }
+
+            $newCountry = new Country;
+            $this->addNew($newCountry, $newCountryName, '', 'Country', 'id');
+
+            $country = Country::where('name', '=', $newCountryName)->first();
+            $id = $country->id;
+            $newCity = new City;
+            $this->addNew($newCity, $newCityName, $id, 'City', 'country_id');
+
+            $city = City::where('name', '=', $newCityName)->first();
+            $id = $city->id;
+            $newAttraction = new Attraction;
+            $this->addNew($newAttraction, $newAttractionName, $id, 'Attraction', 'city_id');
+
+            $attraction = Attraction::where('name', '=', $newAttractionName)->first();
+            $id = $attraction->id;
+            $newDescription = new Description;
+            $this->addNew($newDescription, $newDescriptionName, $id, 'Description', 'attraction_id');
+        }
 
         return view('countriesCities.add', [
             'title'=>$title,
             'selectCountry'=>$selectCountry,
             'selectCity'=>$selectCity,
-            'selectAttraction'=>$selectAttraction
+            'selectAttraction'=>$selectAttraction,
+            'selectDescription'=>$selectDescription,
+            'selectNewCountry'=>$selectNewCountry,
+            'selectNewCity'=>$selectNewCity,
+            'selectNewAttraction'=>$selectNewAttraction,
+            'selectNewDescription'=>$selectNewDescription
         ]);
+
+
     }
 
-    private function addNew($whatNew, $items, $newName, $id, $title, $a){
-        foreach ($items as $item){
-            if($item->name == $newName){
-                return redirect("/countries/admin/add/$title")->with('status', "$title name already exists");
+    public function edit(Request $request, $title)
+    {
+        $selectNewCountry = '<input name="newCountryName" value="default" placeholder="!!new country name!!"><br><br>';
+        $selectNewCity = '<input name="newCityName" placeholder="!!new city name!!"><br><br>';
+        $selectNewAttraction = '<input name="newAttractionName" placeholder="!!new attraction name!!"><br><br>';
+        $selectNewDescription = '<textarea name="newDescriptionName" value="default">default</textarea><br><br>';
+
+        if($title == 'Country'){
+            if($request->has('edit')){
+                $whatEdit = new Country;
+                $newName = $request->get('newCountryName');
+                $oldName = $request->get('selectCountry');
+                $this->editHelper($whatEdit, $newName, $oldName);
+                return redirect('/countries/admin/show/Country');
             }
-        }
-        $newItem = $whatNew;
-        $newItem->name = $newName;
-        if(!empty($id)){
-            $newItem->$a = $id;
+            $selectCountry = $this->getSelect($request->get('editName'), $this->countries, 'selectCountry');
+            return view('countriesCities.edit', ['selectCountry'=>$selectCountry, 'selectNewCountry'=>$selectNewCountry]);
         }
 
-        $newItem->save();
+        if($title == 'City'){
+            if($request->has('edit')){
+                $whatEdit = new City;
+                $newName = $request->get('newCityName');
+                $oldName = $request->get('selectCity');
+                $this->editHelper($whatEdit, $newName, $oldName);
+                return redirect('/countries/admin/show/City');
+            }
+            $selectCity = $this->getSelect($request->get('editName'), $this->cities, 'selectCity');
+            return view('countriesCities.edit', ['selectCity'=>$selectCity, 'selectNewCity'=>$selectNewCity]);
+        }
+
+        if($title == 'Attraction'){
+            if($request->has('edit')){
+                $whatEdit = new Attraction;
+                $newName = $request->get('newAttractionName');
+                $oldName = $request->get('selectAttraction');
+                $this->editHelper($whatEdit, $newName, $oldName);
+                return redirect('/countries/admin/show/Attraction');
+            }
+            $selectAttraction = $this->getSelect($request->get('editName'), $this->attractions, 'selectAttraction');
+            return view('countriesCities.edit', ['selectAttraction'=>$selectAttraction, 'selectNewAttraction'=>$selectNewAttraction]);
+        }
+
+        if($title == 'Description'){
+            if($request->has('edit')){
+                $whatEdit = new Description;
+                $newName = $request->get('newDescriptionName');
+                $oldName = $request->get('selectDescription');
+                $this->editHelper($whatEdit, $newName, $oldName);
+                return redirect('/countries/admin/show/Description');
+            }
+            $selectDescription = $this->getSelect($request->get('editName'), $this->descriptions, 'selectDescription');
+            return view('countriesCities.edit', ['selectDescription'=>$selectDescription, 'selectNewDescription'=>$selectNewDescription]);
+        }
+    }
+
+    public function delete(Request $request, $title)
+    {
+        if($title == 'Country'){
+            $whatDelete = new Country;
+        }
+        if($title == 'City'){
+            $whatDelete = new City;
+        }
+        if($title == 'Attraction'){
+            $whatDelete = new Attraction;
+        }
+        if($title == 'Description'){
+            $whatDelete = new Description;
+        }
+        if($request->has('deleteId')){
+            $id = $request->deleteId;
+            $delete = $whatDelete::find($id);
+            $delete->delete();
+            return redirect("/countries/admin/show/$title");
+        }
+    }
+
+    private function editHelper($whatEdit, $newName, $oldName)
+    {
+        $editing = $whatEdit::where('name', '=', $oldName)->first();
+        $editing->name = $newName;
+        $editing->save();
+    }
+
+    private function addNew($whatNew, $newName, $id, $title, $a){
+        $exist = $whatNew::where('name', '=', $newName)->first();
+        if(empty($exist)){
+            $newItem = $whatNew;
+            $newItem->name = $newName;
+            if(!empty($id)){
+                $newItem->$a = $id;
+            }
+            $newItem->save();
+        }
+
         return redirect("/countries/admin/add/$title")->with('status', "Add a new $title is successful");
     }
 
     private function getSelect($orderBy, $items, $selectName){
-        $select = "<select name='$selectName'>";
+        $select = '<select name="'.$selectName.'">';
         foreach ($items as $item){
             if($item->name == $orderBy){
-                $select .= "<option selected>$item->name</option>";
+                $select .= '<option selected>'.$item->name.'</option>';
             }else {
-                $select .= "<option>$item->name</option>";
+                $select .= '<option>'.$item->name.'</option>';
             }
         }
-        $select .= '</select>';
+        $select .= '</select><br><br>';
         return $select;
     }
 }

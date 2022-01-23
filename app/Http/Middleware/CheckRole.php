@@ -9,7 +9,7 @@ class CheckRole
     public function handle($request, Closure $next, $role)
     {
         if ($request->user()->role != $role) {
-            return redirect('/countries');
+            return redirect('/countries')->with('message', 'you are not admin, Access is denied');
         }
 
         return $next($request);

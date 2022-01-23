@@ -1,5 +1,9 @@
-@extends('layouts.layout')
-@section('main')
+@extends('layouts.app')
+@section('menu')
+    <a class="navbar-brand" href="/countries">countries</a>
+    <a class="navbar-brand" href="/countries/admin">admin</a>
+@endsection
+@section('content')
 <ul>
     @foreach($countries as $country)
         <li>
@@ -7,6 +11,4 @@
         </li>
     @endforeach
 </ul>
-
-
 @endsection
